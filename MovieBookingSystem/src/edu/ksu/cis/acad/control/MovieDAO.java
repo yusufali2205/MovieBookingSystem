@@ -60,5 +60,30 @@ public class MovieDAO {
         
         return rows_deleted;
     }
+    
+    public int editMovie(String movie_id) {
+    	int rows_deleted = 0;
+    	DatabaseConnect db = new DatabaseConnect();
+        try {
+			Connection dbConn = db.openConnection();
+			
+			String query = "DELETE FROM MOVIES "
+    				+ "WHERE movie_id = ?";
+    
+			PreparedStatement delete_movie_ps = dbConn.prepareStatement(query);
+			delete_movie_ps.setString(1, movie_id);
+			
+			rows_deleted = delete_movie_ps.executeUpdate();
+            
+            dbConn.close();
+            
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return rows_deleted;
+    }
 
 }
