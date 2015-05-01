@@ -109,7 +109,7 @@ public class MovieDAO {
 				movie.setMid(rows_selected.getString(1));
 				movie.setMname(rows_selected.getString(2));
 				movie.setRelease_date(rows_selected.getDate(3));
-				movie.setGenre(rows_selected.getString(4));
+				movie.setGenre(rows_selected.getString(4)); 
 				movie.setRunning(rows_selected.getBoolean(5));
 				movies.add(movie);
 			}
