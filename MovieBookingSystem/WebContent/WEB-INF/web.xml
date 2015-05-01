@@ -49,10 +49,6 @@
         <servlet-class>com.cinema.controller.UpdateBooking</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GetDetails</servlet-name>
-        <servlet-class>com.cinema.controller.GetDetails</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AddTheatre</servlet-name>
         <servlet-class>com.cinema.controller.AddTheatre</servlet-class>
     </servlet>

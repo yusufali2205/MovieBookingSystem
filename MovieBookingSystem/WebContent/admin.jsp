@@ -4,7 +4,7 @@
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@page import="com.cinema.dbutil.Database"%>
+<%@page import="edu.ksu.cis.acad.dbutil.Database"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="includes/remcaching.jsp" %>
 <%    if (session.getAttribute("admin") == null) {

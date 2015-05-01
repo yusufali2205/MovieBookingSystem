@@ -1,5 +1,5 @@
 <%@page import="java.util.Date"%>
-<%@page import="com.cinema.dbutil.Database"%>
+<%@page import="edu.ksu.cis.acad.dbutil.Database"%>
 <%@page import="java.sql.ResultSet"%>
 <%
     Database db1 = new Database();
