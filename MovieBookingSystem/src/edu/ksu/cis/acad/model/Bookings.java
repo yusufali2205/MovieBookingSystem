@@ -1,6 +1,6 @@
 package edu.ksu.cis.acad.model;
 
-public class Seats {
+public class Bookings {
 	private String booking_id;
 	private String username;
 	private String movie_id;
