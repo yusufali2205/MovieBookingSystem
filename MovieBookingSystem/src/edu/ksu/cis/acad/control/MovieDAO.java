@@ -112,7 +112,7 @@ public class MovieDAO {
 				movie.setGenre(rows_selected.getString(4)); 
 				movie.setRunning(rows_selected.getBoolean(5));
 				movies.add(movie);
-			}
+			} 
 			
             dbConn.close();
             
