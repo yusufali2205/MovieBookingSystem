@@ -2,83 +2,83 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
         <servlet-name>LoginValidation</servlet-name>
-        <servlet-class>com.cinema.controller.LoginValidation</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.LoginValidation</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
-        <servlet-class>com.cinema.controller.logout</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.logout</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Register</servlet-name>
-        <servlet-class>com.cinema.controller.Register</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.Register</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MovieList</servlet-name>
-        <servlet-class>com.cinema.controller.MovieList</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.MovieList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BookTicket</servlet-name>
-        <servlet-class>com.cinema.controller.BookTicket</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.BookTicket</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SeatStatus</servlet-name>
-        <servlet-class>com.cinema.controller.SeatStatus</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.SeatStatus</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MyBookings</servlet-name>
-        <servlet-class>com.cinema.controller.MyBookings</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.MyBookings</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetDetails</servlet-name>
-        <servlet-class>com.cinema.controller.GetDetails</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.GetDetails</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditBooking</servlet-name>
-        <servlet-class>com.cinema.controller.EditBooking</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.EditBooking</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CancelBooking</servlet-name>
-        <servlet-class>com.cinema.controller.CancelBooking</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.CancelBooking</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CurrentStatus</servlet-name>
-        <servlet-class>com.cinema.controller.CurrentStatus</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.CurrentStatus</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateBooking</servlet-name>
-        <servlet-class>com.cinema.controller.UpdateBooking</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.UpdateBooking</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddTheatre</servlet-name>
-        <servlet-class>com.cinema.controller.AddTheatre</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.AddTheatre</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddMovies</servlet-name>
-        <servlet-class>com.cinema.controller.AddMovies</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.AddMovies</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Movies</servlet-name>
-        <servlet-class>com.cinema.controller.Movies</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.Movies</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteMovie</servlet-name>
-        <servlet-class>com.cinema.controller.DeleteMovie</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.DeleteMovie</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditMovies</servlet-name>
-        <servlet-class>com.cinema.controller.EditMovies</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.EditMovies</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Theatres</servlet-name>
-        <servlet-class>com.cinema.controller.Theatres</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.Theatres</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditTheatres</servlet-name>
-        <servlet-class>com.cinema.controller.EditTheatres</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.EditTheatres</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteTheatre</servlet-name>
-        <servlet-class>com.cinema.controller.DeleteTheatre</servlet-class>
+        <servlet-class>edu.ksu.cis.acad.control.DeleteTheatre</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginValidation</servlet-name>
