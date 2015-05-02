@@ -1,17 +1,17 @@
 package edu.ksu.cis.acad.model;
 
 public class Bookings {
-	private String booking_id;
+	private int booking_id;
 	private String username;
 	private String movie_id;
 	private String theatre_id;
 	private String show_time;
 	private String seat_numbers;
 	
-	public String getBooking_id() {
+	public int getBooking_id() {
 		return booking_id;
 	}
-	public void setBooking_id(String booking_id) {
+	public void setBooking_id(int booking_id) {
 		this.booking_id = booking_id;
 	}
 	

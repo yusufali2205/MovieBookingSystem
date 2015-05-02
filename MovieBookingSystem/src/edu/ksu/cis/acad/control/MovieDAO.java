@@ -4,6 +4,7 @@ import edu.ksu.cis.acad.dbutil.DatabaseConnect;
 import edu.ksu.cis.acad.model.Movie;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -124,5 +125,44 @@ public class MovieDAO {
         
         return movies;
     }
+    
+    // need to add a method to get movie by (theatre, date, show time)
+    public ArrayList<Movie> getMoviesForShow(String theatre_id, Date date, String show_time) {
+    	ArrayList<Movie> movies = new ArrayList<Movie>();
+    	DatabaseConnect db = new DatabaseConnect();
+        try {
+			Connection dbConn = db.openConnection();
+			
+			String query = "SELECT MOVIE.* FROM MOVIE, PLAYED_IN "
+							+ "WHERE PLAYED_IN.thetre_id=? "
+							+ "AND PLAYED_IN.show_time=? "
+							+ "AND date>? "
+							+ "AND PLAYED_IN.movie_id=MOVIE.movie_id";
+    
+			PreparedStatement get_movies_ps = dbConn.prepareStatement(query);
+			
+			ResultSet rows_selected = get_movies_ps.executeQuery();
+            
+			while ( rows_selected.next() ) {
+				Movie movie = new Movie();
+				movie.setMid(rows_selected.getString(1));
+				movie.setMname(rows_selected.getString(2));
+				movie.setRelease_date(rows_selected.getDate(3));
+				movie.setGenre(rows_selected.getString(4)); 
+				movie.setRunning(rows_selected.getBoolean(5));
+				movies.add(movie);
+			} 
+			
+            dbConn.close();
+            
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return movies;
+    }
+
     
 }
