@@ -4,7 +4,7 @@ public class PlayedIn {
 	private String theatre_id;
 	private String movie_id;
 	private String show_time;
-	private String date;
+	private String last_date;
 	
 	public String getTheatre_id() {
 		return theatre_id;
@@ -28,10 +28,10 @@ public class PlayedIn {
 	}
 	
 	public String getDate() {
-		return date;
+		return last_date;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setDate(String last_date) {
+		this.last_date = last_date;
 	}
 	
 	

@@ -16,7 +16,9 @@ public class ActorDao {
         try {
 			Connection dbConn = db.openConnection();
 			
-			String query = "SELECT * FROM ACTOR	WHERE movie_id=?";
+			String query = "SELECT ACTOR.* FROM ACTOR_MOVIES, ACTOR "
+							+ "WHERE ACTOR_MOVIES.movie_id=? "
+							+ "AND ACTOR_MOVIES.actor_id=ACTOR.actor_id";
     
 			PreparedStatement get_actor_ps = dbConn.prepareStatement(query);
 			
@@ -24,9 +26,8 @@ public class ActorDao {
             
 			while ( rows_selected.next() ) {
 				Actor actor = new Actor();
-				actor.setActor_id(rows_selected.getString(1));
+				actor.setActor_id(rows_selected.getInt(1));
 				actor.setActor_name(rows_selected.getString(2));
-				actor.setMovie_id(rows_selected.getString(3));
 				actors.add(actor);
 			}
 			

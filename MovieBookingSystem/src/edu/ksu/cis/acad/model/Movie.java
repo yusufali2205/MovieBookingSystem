@@ -3,16 +3,16 @@ package edu.ksu.cis.acad.model;
 import sun.util.calendar.LocalGregorianCalendar.Date;
 
 public class Movie {
-	private String movie_id;
+	private int movie_id;
 	private String movie_name;
 	private java.sql.Date release_date;
 	private String genre;
 	private boolean running; // true if movie is currently being played
 	
-	public String getMid() {
+	public int getMid() {
 		return movie_id;
 	}
-	public void setMid(String movie_id) {
+	public void setMid(int movie_id) {
 		this.movie_id = movie_id;
 	}
 	

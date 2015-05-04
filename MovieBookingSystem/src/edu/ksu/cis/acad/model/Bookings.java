@@ -1,5 +1,7 @@
 package edu.ksu.cis.acad.model;
 
+import java.sql.Date;
+
 public class Bookings {
 	private int booking_id;
 	private String username;
@@ -7,6 +9,7 @@ public class Bookings {
 	private String theatre_id;
 	private String show_time;
 	private String seat_numbers;
+	private Date date;
 	
 	public int getBooking_id() {
 		return booking_id;
@@ -48,6 +51,13 @@ public class Bookings {
 	}
 	public void setSeat_numbers(String seat_numbers) {
 		this.seat_numbers = seat_numbers;
+	}
+	
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 }
