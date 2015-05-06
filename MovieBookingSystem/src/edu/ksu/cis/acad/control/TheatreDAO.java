@@ -118,6 +118,37 @@ public class TheatreDAO {
         return theatres;
     }
 
+    public Theatre getAllTheatresByName(String tName) {
+    	Theatre theatre = new Theatre();
+    	DatabaseConnect db = new DatabaseConnect();
+        try {
+			Connection dbConn = db.openConnection();
+			
+			String query = "SELECT * FROM THEATRE WHERE theatre_name = ?";
+    
+			PreparedStatement select_theatre_ps = dbConn.prepareStatement(query);
+			select_theatre_ps.setString(1, tName);
+			
+			ResultSet rows_selected = select_theatre_ps.executeQuery();
+            
+			while ( rows_selected.next() ) {
+				
+				theatre.setTheatre_id(rows_selected.getInt(1));
+				theatre.setTheatre_name(rows_selected.getString(2));
+				theatre.setShow_time(rows_selected.getString(3));
+			} 
+			
+            dbConn.close();
+            
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return theatre;
+    }
+
 
 
 }
