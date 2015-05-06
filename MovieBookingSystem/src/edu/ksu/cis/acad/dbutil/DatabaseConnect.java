@@ -1,15 +1,9 @@
 package edu.ksu.cis.acad.dbutil;
 
 import java.io.FileInputStream;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Properties;
-
-import edu.ksu.cis.acad.model.Movie;
 
 public class DatabaseConnect {
 
@@ -23,8 +17,7 @@ public class DatabaseConnect {
 		public Connection openConnection() throws Exception {
 			// DB Connection
 			Connection _mydb;
-
-			configProps.load(new FileInputStream("config/dbconn.config"));
+			configProps.load(new FileInputStream("/Users/ashkrishna/git/MovieBookingSystem/MovieBookingSystem/config/dbconn.config"));
 			MySqlServerDriver    = configProps.getProperty("MySqlServerDriver");
 			MySqlServerUrl 	   = configProps.getProperty("MySqlServerUrl");
 			MySqlServerUser 	   = configProps.getProperty("MySqlServerUser");

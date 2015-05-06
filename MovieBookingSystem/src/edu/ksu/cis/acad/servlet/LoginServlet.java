@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ksu.cis.acad.control.LoginDAO;
 import edu.ksu.cis.acad.control.TheatreDAO;
+import edu.ksu.cis.acad.control.UserDAO;
 import edu.ksu.cis.acad.model.Theatre;
 import edu.ksu.cis.acad.model.User;
 
@@ -37,17 +38,13 @@ public class LoginServlet extends HttpServlet {
 		
 		try{
 			
-			User user = new User();
-			user.setUsername(request.getParameter("username"));
-			user.setPassword(request.getParameter("password"));
+			UserDAO userDao = new UserDAO();
+			User valUser = userDao.login(request.getParameter("username"),request.getParameter("password"));
 			
-			LoginDAO loDao = new LoginDAO();
-			User validateduser = loDao.getUser(user);
-			
-			if(validateduser==null){
+			if(valUser.getType()==null){
 				System.out.println("Invalid Credetails!!");
 			}
-			else if(validateduser.getType().equals("admin")){
+			else if(valUser.getType().equals("admin")){
 				response.sendRedirect("admin.jsp");
 			}
 			else{
