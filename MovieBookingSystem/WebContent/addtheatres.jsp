@@ -4,14 +4,7 @@
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@page import="edu.ksu.cis.acad.dbutil.Database"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="includes/remcaching.jsp" %>
-<%    if (session.getAttribute("admin") == null) {
-        response.sendRedirect("login.jsp");
-    }
-    Database db = new Database();
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,25 +12,6 @@
         <title>Home</title>
         <link rel="stylesheet" href="css/style.css"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script>
-
-        <script type="text/javascript" src="js/jcarousel.js"></script>
-        <script type="text/javascript" src="js/jcarousel.responsive.js"></script>
-        <script>
-            jQuery.fn.center = function() {
-                this.css("position", "fixed");
-                this.css("top","0px");
-                this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
-                        $(window).scrollLeft()) + "px");
-                return this;
-            }
-            $(function() {
-                $("#message1").center();
-                
-
-            });
-        </script>
     </head>
     <body>
         <div id="mainWrapper">

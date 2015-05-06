@@ -1,17 +1,11 @@
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@page import="edu.ksu.cis.acad.dbutil.Database"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="includes/remcaching.jsp" %>
-<%    if (session.getAttribute("username") == null) {
-        response.sendRedirect("login.jsp");
-    }
-    Database db = new Database();
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,114 +13,21 @@
         <title>Home</title>
         <link rel="stylesheet" href="css/style.css"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script>
-
-        <script type="text/javascript" src="js/jcarousel.js"></script>
-        <script type="text/javascript" src="js/jcarousel.responsive.js"></script>
-        <script>
-            jQuery.fn.center = function() {
-                this.css("position", "fixed");
-                this.css("top","0px");
-                this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
-                        $(window).scrollLeft()) + "px");
-                return this;
-            }
-            $(function() {
-                $("#message1").center();
-                $('#datepicker').datepicker({minDate: 0, dateFormat: 'yy-mm-dd'});
-
-                $("#maincontent").on("click", ".available", function() {
-                    var id = $(this).attr("id");
-                    $(this).toggleClass("selected");
-                    if ($(this).attr("class") === "available") {
-                        seats = $("#seats").val().replace(id + ",", "");
-                    } else {
-                        var seats = $("#seats").val();
-                        seats += id + ",";
-                    }
-                    $("#seats").val(seats);
+        
+        <script src="cal/jquery-1.6.2.min.js"></script>
+		<script src="cal/jquery-ui-1.8.15.custom.min.js"></script>
+		<link rel="stylesheet" href="cal/jqueryCalendar.css">
+		<script>
+                jQuery(function() {
+                                jQuery( "#datepicker" ).datepicker({ minDate: 0,maxDate: '+2W'});
                 });
-
-                $("#datepicker").on("change", function() {
-                    $("#movie").load("movie?date=" + $(this).val());
-                });
-                $("#movie").on("change", function() {
-                    $("#showtime").val("0");
-                    $("#seats").val("");
-                });
-                $("#theatre").on("change", function() {
-                    $("#showtime").val("0");
-                    $("#seats").val("");
-                });
-                $("#maincontent").on("change", "#showtime", function() {
-                    var tid = $("#theatre").val();
-                    var mid = $("#movie").val();
-                    var date = $("#datepicker").val();
-                    var showtime = $("#showtime").val();
-                    $("#seatstatus").load("seatstatus?tid=" + tid + "&mid=" + mid + "&date=" + date + "&showtime=" + showtime);
-                });
-
-                $("#bookingform").on("submit", function(e) {
-                    e.preventDefault();
-                    var tid = $("#theatre").val();
-                    var mid = $("#movie").val();
-                    var date = $("#datepicker").val();
-                    var showtime = $("#showtime").val();
-                    var seats = $("#seats").val();
-                    
-                    if (tid == "0") {
-                        $("#terror").html("please enter the theatre name");
-                        return false;
-                    } else {
-                        $("#terror").hide();
-                    }
-                    if (date == "") {
-                        $("#dateerror").html("please enter the date ");
-                        return false;
-                    } else {
-                        $("#dateerror").hide();
-                    }
-                    if (mid == "0") {
-                        $("#movieerror").html("please enter your theatre name");
-                        return false;
-                    } else {
-                        $("#movieerror").hide();
-                    }
-                    if (showtime == "0") {
-                        $("#sterror").html("please enter the show time");
-                        return false;
-                    } else {
-                        $("#sterror").hide();
-                    }
-                    if (seats == "") {
-                        $("#seaterror").html("please select your seats");
-                        return false;
-                    } else {
-                        $("#seaterror").hide();
-                    }
-
-                    console.log(tid+mid+date+showtime+seats);
-                    $.ajax({
-                        url: $(this).attr("action"),
-                        type:"POST",
-                        data: { "tid": tid, "mid": mid, "date": date, "showtime": showtime, "seats": seats},
-                        beforeSend: function() {
-                            $("#message1").show().html("booking...").fadeOut(5000);
-                        },
-                        success: function(data) {
-                            $("#message1").html(data);
-                            $("#theatre").val("0");
-                            $("#movie").val("0");
-                            $("#datepicker").val("");
-                            $("#showtime").val("0");
-                            $("#seatstatus").html("");
-                        }
+                
+                $(document).ready(function() {
+                    $('#datepicker').on('change', function() {
+                      alert( this.value ); // or $(this).val()
                     });
-
                 });
-            });
-        </script>
+                </script>
     </head>
     <body>
         <div id="mainWrapper">
@@ -135,9 +36,9 @@
                 <div class="welcome">
                     <ul>
                         <li><strong>Welcome</strong>, <%
-                            if (session.getAttribute("id") != null) {
+                         /*   if (session.getAttribute("id") != null) {
                                 out.print(db.getFullName((Integer) session.getAttribute("id")));
-                            }
+                            }*/
                             %>
                         </li>
                         <li><a href="logout">Logout</a></li>
@@ -151,35 +52,7 @@
                 </ul>
             </div>
             <div class="wrapper">
-                <div class="jcarousel-wrapper">
-                    <div class="jcarousel">
-                        <ul>
-                            <%
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = new Date();
-                                Calendar c = Calendar.getInstance();
-                                c.setTime(date);
-                                c.add(Calendar.DATE, 4);
-                                date = c.getTime();
-                                String today = dateFormat.format(date);
-                                String query = "select * from movies where release_date > '" + today + "'";
-
-                                ResultSet rs1 = db.result(query);
-                                while (rs1.next()) {
-                                    out.print("<li><img src='img/" + rs1.getString("poster") + "'></li>");
-                                }
-                            %>
-
-
-                        </ul>
-                    </div>
-
-                    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-                    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
-
-                    <p class="jcarousel-pagination"></p>
-                </div>
-            </div>
+                
             <div id="maincontent">
                 <h1>BOOK MY TICKET</h1>
                 <form class="booking" id="bookingform" action="book" method="post">
@@ -190,26 +63,39 @@
                             <td>                    
                                 <select name="theatre" id="theatre">
                                     <option value="0">--select--</option>
-                                    <%
-                                        ResultSet rs = db.result("select * from theatre");
-                                        while (rs.next()) {
-                                            out.print("<option value='" + rs.getString("id") + "'>");
-                                            out.print(rs.getString("tname"));
-                                            out.print("</option>");
-                                        }
-                                    %>                        
+                                     <option value="0">--select--</option>
+                       	 			 <%
+           								 ArrayList<edu.ksu.cis.acad.model.Theatre> theartres = (ArrayList<edu.ksu.cis.acad.model.Theatre>)request.getAttribute("theatres");
+           								 if(theartres!=null){   
+          								  for (edu.ksu.cis.acad.model.Theatre theartre : theartres) { 
+                 								  out.println("<option>"+theartre.getTheatre_name()+"</option>");
+          								     }
+         									    }else{
+             									    System.out.print("theatre is null");
+           								  }
+            						 %>                      
                                 </select><span class="error1" id="terror"></span>
                             </td>
                         </tr>
                         <tr>
                             <td>DATE</td>
-                            <td><input type="text" name="date" id="datepicker"/><span class="error1" id="dateerror"></span></td>
+                            <td><input type="text" name="date" id="datepicker"/>
+                            <span class="error1" id="dateerror"></span></td>
                         </tr>
                         <tr>
                             <td>MOVIE NAME</td>
                             <td>
                                 <select name="movie" id="movie">
-                                    <option value="0">--select--</option>
+                                    <%
+           								 ArrayList<String> movies = (ArrayList<String>)request.getAttribute("movies");
+           								 if(movies!=null){   
+          								  for (String movie : movies) { 
+                 								  out.println("<option>"+movie+"</option>");
+          								     }
+         									    }else{
+             									    System.out.print("states is null");
+           								  }
+            						 %>
                                 </select>
                                 <span class="error1" id="movieerror"></span>
                             </td>
@@ -242,6 +128,7 @@
             <div id="footer"></div>
         </div>
         <div id="message1"></div>
+        </div>
     </body>
 </html>
 
