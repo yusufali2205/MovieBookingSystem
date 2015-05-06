@@ -22,9 +22,9 @@
                                 jQuery( "#datepicker" ).datepicker({ minDate: 0,maxDate: '+2W'});
                 });
                 
-                $(document).ready(function() {
-                    $('#datepicker').on('change', function() {
-                      alert( this.value ); // or $(this).val()
+                $(document).ready(function(){
+                    $("input").change(function(){
+                    	$("#bookingform").submit();
                     });
                 });
                 </script>
@@ -36,9 +36,9 @@
                 <div class="welcome">
                     <ul>
                         <li><strong>Welcome</strong>, <%
-                         /*   if (session.getAttribute("id") != null) {
-                                out.print(db.getFullName((Integer) session.getAttribute("id")));
-                            }*/
+                            if (session.getAttribute("id") != null) {
+                                out.print(session.getAttribute("id"));
+                            }
                             %>
                         </li>
                         <li><a href="logout">Logout</a></li>
@@ -55,15 +55,13 @@
                 
             <div id="maincontent">
                 <h1>BOOK MY TICKET</h1>
-                <form class="booking" id="bookingform" action="book" method="post">
+                <form class="booking" id="bookingform" action="<%=request.getContextPath() %>/HomeServlet" method="post">
                     <input id="seats" type="hidden" name="seats" value=""/>
                     <table>
                         <tr>
                             <td>THEATRE</td>
                             <td>                    
                                 <select name="theatre" id="theatre">
-                                    <option value="0">--select--</option>
-                                     <option value="0">--select--</option>
                        	 			 <%
            								 ArrayList<edu.ksu.cis.acad.model.Theatre> theartres = (ArrayList<edu.ksu.cis.acad.model.Theatre>)request.getAttribute("theatres");
            								 if(theartres!=null){   

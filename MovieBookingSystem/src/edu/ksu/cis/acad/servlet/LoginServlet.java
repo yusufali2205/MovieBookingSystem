@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.Session;
 
 import edu.ksu.cis.acad.control.LoginDAO;
 import edu.ksu.cis.acad.control.TheatreDAO;
@@ -48,6 +51,8 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("admin.jsp");
 			}
 			else{
+				HttpSession session = request.getSession();
+				session.setAttribute("id", valUser.getUsername());
 				TheatreDAO tDao = new TheatreDAO();
 				ArrayList<Theatre> theaterlist = tDao.getAllTheatres();
 				request.setAttribute("theatres", theaterlist);

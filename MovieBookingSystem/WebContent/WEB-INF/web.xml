@@ -7,9 +7,17 @@
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>edu.ksu.cis.acad.servlet.LoginServlet</servlet-class>
- </servlet>
- <servlet-mapping>
+  </servlet>
+  <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/LoginServlet</url-pattern>
-</servlet-mapping>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>edu.ksu.cis.acad.servlet.HomeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/HomeServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
