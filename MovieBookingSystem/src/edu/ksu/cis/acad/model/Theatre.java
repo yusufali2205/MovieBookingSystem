@@ -1,14 +1,15 @@
 package edu.ksu.cis.acad.model;
 
 public class Theatre {
-	private String theatre_id;
+	private int theatre_id;
 	private String theatre_name;
 	private String show_time;
 	
-	public String getTheatre_id() {
+	public int getTheatre_id() {
 		return theatre_id;
 	}
-	public void setTheatre_id(String theatre_id) {
+	// set theatre id should not be required since it is auto incremented in the database
+	public void setTheatre_id(int theatre_id) {
 		this.theatre_id = theatre_id;
 	}
 	
