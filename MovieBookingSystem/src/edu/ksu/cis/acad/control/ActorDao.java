@@ -10,7 +10,7 @@ import edu.ksu.cis.acad.model.Actor;
 
 public class ActorDao {
 
-	public ArrayList<Actor> getActors(String movie_id) {
+	public ArrayList<Actor> getActors(int movie_id) {
 		ArrayList<Actor> actors = new ArrayList<Actor>();
     	DatabaseConnect db = new DatabaseConnect();
         try {
@@ -21,6 +21,7 @@ public class ActorDao {
 							+ "AND ACTOR_MOVIES.actor_id=ACTOR.actor_id";
     
 			PreparedStatement get_actor_ps = dbConn.prepareStatement(query);
+			get_actor_ps.setInt(1, movie_id);
 			
 			ResultSet rows_selected = get_actor_ps.executeQuery();
             

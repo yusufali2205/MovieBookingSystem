@@ -4,6 +4,7 @@ package edu.ksu.cis.acad.control;
 import edu.ksu.cis.acad.dbutil.DatabaseConnect;
 import edu.ksu.cis.acad.model.Bookings;
 import edu.ksu.cis.acad.model.Movie;
+import edu.ksu.cis.acad.model.PlayedIn;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,16 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-public class BookingsDAO extends HttpServlet {
+public class BookingsDAO {
 
     // might need to put a validation to check if the seats selected are available or not
 	// or we will disable the already booked seats on seat selection page 
@@ -89,6 +82,7 @@ public class BookingsDAO extends HttpServlet {
 							+ "WHERE username = ?";
     
 			PreparedStatement get_all_user_movie_ps = dbConn.prepareStatement(query);
+			get_all_user_movie_ps.setString(1, username);
 			
 			ResultSet rows_selected = get_all_user_movie_ps.executeQuery();
             
@@ -117,7 +111,7 @@ public class BookingsDAO extends HttpServlet {
 	
 	// this will return all the booked seats of a particular show
 	// Ashwin can use this method to disable already booked seats on the booking page
-	public String getBookedSeats(String movie_id, String theatre_id, Date date, String show_time) {
+	public String getBookedSeats(int movie_id, int theatre_id, Date date, String show_time) {
 		String booked_seats = "";
 		DatabaseConnect db = new DatabaseConnect();
         try {
@@ -127,7 +121,11 @@ public class BookingsDAO extends HttpServlet {
 							+ "WHERE movie_id=? AND theatre_id=? AND date=? AND show_time=?";
     
 			PreparedStatement get_booked_seats_ps = dbConn.prepareStatement(query);
-			
+			get_booked_seats_ps.setInt(1, movie_id);
+			get_booked_seats_ps.setInt(2, theatre_id);
+			get_booked_seats_ps.setDate(3, date);
+			get_booked_seats_ps.setString(4, show_time);
+						
 			ResultSet rows_selected = get_booked_seats_ps.executeQuery();
             
 			while ( rows_selected.next() ) {
@@ -145,4 +143,42 @@ public class BookingsDAO extends HttpServlet {
         return booked_seats;
     
 	}
+	
+	public ArrayList<PlayedIn> getMovieShowsByTheatreAndDate(int theatre_id, Date date) {
+		ArrayList<PlayedIn> shows = new ArrayList<PlayedIn>();
+    	DatabaseConnect db = new DatabaseConnect();
+        try {
+			Connection dbConn = db.openConnection();
+			
+			String query = "SELECT * FROM PLAYED_IN "
+							+ "WHERE theatre_id = ? AND last_date > ?";
+    
+			PreparedStatement get_shows_by_date = dbConn.prepareStatement(query);
+			get_shows_by_date.setInt(1, theatre_id);
+			get_shows_by_date.setDate(2, date);
+			
+			ResultSet rows_selected = get_shows_by_date.executeQuery();
+            
+			while ( rows_selected.next() ) {
+				PlayedIn show = new PlayedIn();
+				show.setTheatre_id(rows_selected.getInt(1));
+				show.setMovie_id(rows_selected.getInt(2));
+				show.setShow_time(rows_selected.getString(3));
+				show.setDate(rows_selected.getDate(4));
+				shows.add(show);
+			} 
+			
+            dbConn.close();
+            
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return shows;
+	}
+	
+	
+	
 }

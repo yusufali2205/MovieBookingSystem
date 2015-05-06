@@ -127,7 +127,7 @@ public class MovieDAO {
     }
     
     // need to add a method to get movie by (theatre, date, show time)
-    public ArrayList<Movie> getMoviesForShow(String theatre_id, Date date, String show_time) {
+    public ArrayList<Movie> getMoviesForShow(int theatre_id, Date date, String show_time) {
     	ArrayList<Movie> movies = new ArrayList<Movie>();
     	DatabaseConnect db = new DatabaseConnect();
         try {
@@ -140,6 +140,9 @@ public class MovieDAO {
 							+ "AND PLAYED_IN.movie_id=MOVIE.movie_id";
     
 			PreparedStatement get_movies_ps = dbConn.prepareStatement(query);
+			get_movies_ps.setInt(1, theatre_id);
+			get_movies_ps.setDate(2, date);
+			get_movies_ps.setString(3, show_time);
 			
 			ResultSet rows_selected = get_movies_ps.executeQuery();
             

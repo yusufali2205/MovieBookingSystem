@@ -21,7 +21,7 @@ public class ReviewDAO {
             String query = "INSERT INTO REVIEWS "
             				+	"VALUES (?, ?, ?, ?)";
             PreparedStatement add_review_ps = dbConn.prepareStatement(query);
-            add_review_ps.setString(1, review.getMovie_id());
+            add_review_ps.setInt(1, review.getMovie_id());
             add_review_ps.setString(2, review.getUsername());
             add_review_ps.setInt(3, review.getRating());
             add_review_ps.setString(4, review.getComment());
@@ -52,7 +52,7 @@ public class ReviewDAO {
             
 			while ( rows_selected.next() ) {
 				Review review = new Review();
-				review.setMovie_id(rows_selected.getString(1));
+				review.setMovie_id(rows_selected.getInt(1));
 				review.setUsername(rows_selected.getString(2));
 				review.setRating(rows_selected.getInt(3));
 				review.setComment(rows_selected.getString(4)); 
@@ -73,7 +73,7 @@ public class ReviewDAO {
 	
 	// returns arraylist of reviews for a movie
 	// we will require a join if we need movie name instead of movie id
-	public ArrayList<Review> getReviewsByMovie(String movie_id) {
+	public ArrayList<Review> getReviewsByMovie(int movie_id) {
 		ArrayList<Review> reviews = new ArrayList<Review>();
     	DatabaseConnect db = new DatabaseConnect();
         try {
@@ -83,12 +83,13 @@ public class ReviewDAO {
 							+ "WHERE movie_id=?";
     
 			PreparedStatement get_reviews_by_movie_ps = dbConn.prepareStatement(query);
+			get_reviews_by_movie_ps.setInt(1, movie_id);
 			
 			ResultSet rows_selected = get_reviews_by_movie_ps.executeQuery();
             
 			while ( rows_selected.next() ) {
 				Review review = new Review();
-				review.setMovie_id(rows_selected.getString(1));
+				review.setMovie_id(rows_selected.getInt(1));
 				review.setUsername(rows_selected.getString(2));
 				review.setRating(rows_selected.getInt(3));
 				review.setComment(rows_selected.getString(4)); 

@@ -1,7 +1,5 @@
 package edu.ksu.cis.acad.model;
 
-import sun.util.calendar.LocalGregorianCalendar.Date;
-
 public class Movie {
 	private int movie_id;
 	private String movie_name;
