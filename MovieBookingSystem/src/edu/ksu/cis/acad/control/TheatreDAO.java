@@ -20,7 +20,7 @@ public class TheatreDAO {
             String query = "INSERT INTO THEATRE "
             				+	"VALUES (?, ?, ?)";
             PreparedStatement add_theatre_ps = dbConn.prepareStatement(query);
-            add_theatre_ps.setString(1, theatre.getTheatre_id());
+            add_theatre_ps.setInt(1, theatre.getTheatre_id());
             add_theatre_ps.setString(2, theatre.getTheatre_name());
             add_theatre_ps.setString(3, theatre.getShow_time());
             
@@ -70,7 +70,7 @@ public class TheatreDAO {
     				+ "WHERE theatre_id = ?";
     
 			PreparedStatement edit_theatre_ps = dbConn.prepareStatement(query);
-			edit_theatre_ps.setString(3, theatre.getTheatre_id());
+			edit_theatre_ps.setInt(3, theatre.getTheatre_id());
 			edit_theatre_ps.setString(2,theatre.getShow_time());
 			edit_theatre_ps.setString(1,theatre.getTheatre_name());
 			rows_edited = edit_theatre_ps.executeUpdate();
@@ -101,7 +101,7 @@ public class TheatreDAO {
             
 			while ( rows_selected.next() ) {
 				Theatre theatre = new Theatre();
-				theatre.setTheatre_id(rows_selected.getString(1));
+				theatre.setTheatre_id(rows_selected.getInt(1));
 				theatre.setTheatre_name(rows_selected.getString(2));
 				theatre.setShow_time(rows_selected.getString(3));
 				theatres.add(theatre);
