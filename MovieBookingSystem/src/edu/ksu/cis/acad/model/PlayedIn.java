@@ -4,7 +4,9 @@ import java.sql.Date;
 
 public class PlayedIn {
 	private int theatre_id;
+	private String theatre_name;
 	private int movie_id;
+	private String movie_name;
 	private String show_time;
 	private Date last_date;
 	
@@ -34,6 +36,18 @@ public class PlayedIn {
 	}
 	public void setDate(Date last_date) {
 		this.last_date = last_date;
+	}
+	public String getTheatre_name() {
+		return theatre_name;
+	}
+	public void setTheatre_name(String theatre_name) {
+		this.theatre_name = theatre_name;
+	}
+	public String getMovie_name() {
+		return movie_name;
+	}
+	public void setMovie_name(String movie_name) {
+		this.movie_name = movie_name;
 	}
 	
 	

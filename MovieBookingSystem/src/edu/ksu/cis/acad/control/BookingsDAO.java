@@ -150,8 +150,9 @@ public class BookingsDAO {
         try {
 			Connection dbConn = db.openConnection();
 			
-			String query = "SELECT * FROM PLAYED_IN "
-							+ "WHERE theatre_id = ? AND last_date > ?";
+			String query = "SELECT PLAYED_IN.*, MOVIE.movie_name FROM PLAYED_IN, MOVIE "
+							+ "WHERE PLAYED_IN.theatre_id = ? AND PLAYED_IN.last_date > ? "
+							+ "AND MOVIE.movie_id = PLAYED_IN.movie_id";
     
 			PreparedStatement get_shows_by_date = dbConn.prepareStatement(query);
 			get_shows_by_date.setInt(1, theatre_id);
@@ -165,6 +166,7 @@ public class BookingsDAO {
 				show.setMovie_id(rows_selected.getInt(2));
 				show.setShow_time(rows_selected.getString(3));
 				show.setDate(rows_selected.getDate(4));
+				show.setMovie_name(rows_selected.getString(5));
 				shows.add(show);
 			} 
 			
