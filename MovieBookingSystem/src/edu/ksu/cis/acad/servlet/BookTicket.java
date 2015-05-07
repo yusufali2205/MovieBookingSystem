@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class BookTicket extends HttpServlet {
-	
 
 
     @Override
@@ -33,12 +32,18 @@ public class BookTicket extends HttpServlet {
 			session.setAttribute("id", session.getAttribute("id"));
 
         String uid = (String) session.getAttribute("id");
-    
+   
+        String seats = (String)session.getAttribute("seats");
+        System.out.println("seats"+ (String)session.getAttribute("seats"));
         
-        String seats = request.getParameter("seats");
+        String seats_x = request.getParameter("sseats");
+        System.out.println("seeeee: "+ seats_x);
         
         String splits = request.getParameter("mid");
         String datestr = request.getParameter("date");
+        
+        
+        
   
         SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
 		java.util.Date date;
@@ -60,7 +65,7 @@ public class BookTicket extends HttpServlet {
 		bkk.setUsername(uid);
 		
 		BookingsDAO bdoa = new BookingsDAO();
-		bdoa.bookTickets(bkk);
+		//bdoa.bookTickets(bkk);
 		
 		request.getRequestDispatcher("mybookings.jsp").forward(request, response);
 		out.print("successfully booked");

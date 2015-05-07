@@ -16,10 +16,11 @@ DatabaseConnect db = new DatabaseConnect();
         <title>Home</title>
         <link rel="stylesheet" href="css/style.css"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-        <script type="text/javascript" src="js/jquery.js"></script>
-		<script src="cal/jquery-1.6.2.min.js"></script>
-		<script src="cal/jquery-ui-1.8.15.custom.min.js"></script>
-	
+	 <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+
+        <script type="text/javascript" src="js/jcarousel.js"></script>
+        <script type="text/javascript" src="js/jcarousel.responsive.js"></script>
         <link rel="stylesheet" href="cal/jqueryCalendar.css">
         <script>
         	
@@ -39,12 +40,12 @@ DatabaseConnect db = new DatabaseConnect();
                 $("#seatstatus").load("seatstatus?tid=" + tid + "&mid=" + mid + "&date=" + date);
             });
             
-            $("#bookingform").submit(function() {
+            $("#bookingform").on("submit", function(e) {
                 var tid = $("#theatre").val();
                 var mid = $("#movie").val();
                 var date = $("#datepicker").val();
                 var showtime = $("#showtime").val();
-                var seats = $("#sseat").val();
+                var seats = $("#sseats").val();
                 
                 if (tid == "0") {
                     $("#terror").html("please enter the theatre name");
@@ -159,7 +160,8 @@ DatabaseConnect db = new DatabaseConnect();
                         <tr>
                             <td>SEATS PREFERED</td>
                             <td>
-                              <input type="text" name="date" id="sseat"/>
+                              <input type="text" name="date" id="sseats" value="sseat"/>
+                          
                                 <span class="error1" id="movieerror"></span>
                             </td>
                         </tr>

@@ -44,4 +44,20 @@
         <servlet-name>MyBookings</servlet-name>
         <url-pattern>/mybookings</url-pattern>
     </servlet-mapping>
+   	<servlet-mapping>
+        <servlet-name>AddTheatre</servlet-name>
+        <url-pattern>/addtheatre</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddTheatre</servlet-name>
+        <servlet-class>edu.ksu.cis.acad.servlet.AddTheatre</servlet-class>
+    </servlet>
+    	<servlet-mapping>
+        <servlet-name>DelTheatre</servlet-name>
+        <url-pattern>/deltheatre</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DelTheatre</servlet-name>
+        <servlet-class>edu.ksu.cis.acad.servlet.DelTheatre</servlet-class>
+    </servlet>
 </web-app>

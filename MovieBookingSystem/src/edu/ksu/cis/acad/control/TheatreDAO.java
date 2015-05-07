@@ -34,17 +34,17 @@ public class TheatreDAO {
     	return rows_updated;
     }
     
-    public int deleteTheatre(String theatre_id) {
+    public int deleteTheatre(String theatre_name) {
     	int rows_deleted = 0;
     	DatabaseConnect db = new DatabaseConnect();
         try {
 			Connection dbConn = db.openConnection();
 			
 			String query = "DELETE FROM THEATRE "
-    				+ "WHERE theatre_id = ?";
+    				+ "WHERE theatre_name = ?";
     
 			PreparedStatement delete_theatre_ps = dbConn.prepareStatement(query);
-			delete_theatre_ps.setString(1, theatre_id);
+			delete_theatre_ps.setString(1, theatre_name);
 			
 			rows_deleted = delete_theatre_ps.executeUpdate();
             

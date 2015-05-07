@@ -14,6 +14,68 @@
         <title>Movie booking - Sign Up</title>
         <link rel="stylesheet" href="css/login.css">
     </head>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script>
+            $(document).ready(function() {
+            	$(".login").on("submit", function() {
+                    if ($("#firstname").val() === "") {
+                        $("#ferror").show().html("please enter your firstname");
+                        return false;
+                    }else{
+                        $("#ferror").hide();
+                    }
+                    
+                    if ($("#lastname").val() === "") {
+                        $("#lerror").show().html("please enter your lastname");
+                        return false;
+                    }else{
+                        $("#lerror").hide();
+                    }
+                    
+                    if ($("#username").val() === "") {
+                        $("#usererror").show().html("please enter your firstname");
+                        return false;
+                    }else{
+                        $("#usererror").hide();
+                    }
+                    
+                    if ($("#password").val() === "") {
+                        $("#perror").show().html("please enter your firstname");
+                        return false;
+                    }
+                    else{
+                        $("#perror").hide();
+                    }
+                    
+                    if ($("#cpassword").val() === "") {
+                        $("#cperror").show().html("please enter your firstname");
+                        return false;
+                    }else{
+                        $("#cperror").hide();
+                    }
+                    
+                    if ($("#password").val() != $("#cpassword").val() ) {
+                        $("#cperror").show().html("password doesnot match");
+                        return false;
+                    }else{
+                        $("#cperror").hide();
+                    }
+                    
+                    if ($("#email").val() === "") {
+                        $("#merror").show().html("please enter your email");
+                        return false;
+                    }else{
+                        $("#merror").hide();
+                    }
+                    
+                    if(!/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/.test($("#email").val())){
+                        $("#merror").show().html("please enter a valid email");
+                        return false;
+                    }
+                });
+            });
+            
+            </script>
     <body style="background:#323232">
         <div id="mainwrap">
             <div class="loginwrap">
