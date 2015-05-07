@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class BookingsDAO {
 
-    // might need to put a validation to check if the seats selected are available or not
 	// or we will disable the already booked seats on seat selection page 
 	public int bookTickets(Bookings booking) {
     	int seats_booked = 0;

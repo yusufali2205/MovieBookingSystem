@@ -39,7 +39,7 @@ public class MovieDAO {
     	return rows_updated;
     }
     
-    public int deleteMovie(String movie_id) {
+    public int deleteMovie(int movie_id) {
     	int rows_deleted = 0;
     	DatabaseConnect db = new DatabaseConnect();
         try {
@@ -49,7 +49,7 @@ public class MovieDAO {
     				+ "WHERE movie_id = ?";
     
 			PreparedStatement delete_movie_ps = dbConn.prepareStatement(query);
-			delete_movie_ps.setString(1, movie_id);
+			delete_movie_ps.setInt(1, movie_id);
 			
 			rows_deleted = delete_movie_ps.executeUpdate();
             
@@ -165,6 +165,34 @@ public class MovieDAO {
 		}
         
         return movies;
+    }
+    
+    public String getMovieNameById(int movie_id) {
+    	String movie_name = "";
+    	DatabaseConnect db = new DatabaseConnect();
+        try {
+			Connection dbConn = db.openConnection();
+			
+			String query = "SELECT movie_name FROM MOVIES "
+    				+ "WHERE movie_id = ?";
+    
+			PreparedStatement get_movie_ps = dbConn.prepareStatement(query);
+			get_movie_ps.setInt(1, movie_id);
+			
+			ResultSet movie_result = get_movie_ps.executeQuery();
+            movie_result.next();
+			
+            movie_name = movie_result.getString(1);
+            
+            dbConn.close();
+            
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return movie_name;
     }
 
     
