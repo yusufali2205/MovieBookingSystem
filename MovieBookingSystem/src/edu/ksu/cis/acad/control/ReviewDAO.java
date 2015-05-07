@@ -71,16 +71,15 @@ public class ReviewDAO {
     
 	}
 	
-	// returns arraylist of reviews for a movie
-	// we will require a join if we need movie name instead of movie id
+
 	public ArrayList<Review> getReviewsByMovie(int movie_id) {
 		ArrayList<Review> reviews = new ArrayList<Review>();
     	DatabaseConnect db = new DatabaseConnect();
         try {
 			Connection dbConn = db.openConnection();
 			
-			String query = "SELECT * FROM REVIEWS "
-							+ "WHERE movie_id=?";
+			String query = "SELECT REVIEWS.*, MOVIE.movie_name FROM REVIEWS, MOVIE "
+							+ "WHERE movie_id=? AND REVIEWS.movie_id=MOVIE.movie_id";
     
 			PreparedStatement get_reviews_by_movie_ps = dbConn.prepareStatement(query);
 			get_reviews_by_movie_ps.setInt(1, movie_id);
@@ -93,6 +92,7 @@ public class ReviewDAO {
 				review.setUsername(rows_selected.getString(2));
 				review.setRating(rows_selected.getInt(3));
 				review.setComment(rows_selected.getString(4)); 
+				review.setMovie_name(rows_selected.getString(5));
 				reviews.add(review);
 			} 
 			
@@ -106,6 +106,35 @@ public class ReviewDAO {
         
         return reviews;
     
+	}
+	
+	public long averageRatingByMovie(int movie_id) {
+		long average_rating = 0;
+		DatabaseConnect db = new DatabaseConnect();
+        try {
+			Connection dbConn = db.openConnection();
+			
+			String query = "SELECT AVG(rating) FROM REVIEWS "
+							+ "WHERE movie_id=?";
+    
+			PreparedStatement get_booked_seats_ps = dbConn.prepareStatement(query);
+			get_booked_seats_ps.setInt(1, movie_id);
+			
+			ResultSet rows_selected = get_booked_seats_ps.executeQuery();
+            rows_selected.next();
+            average_rating = rows_selected.getLong(1);
+					
+            dbConn.close();
+            
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("This movie has no reviews");
+			return average_rating;
+		}
+        
+        return average_rating;
 	}
 	
 }

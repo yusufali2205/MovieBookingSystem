@@ -5,8 +5,8 @@ import java.sql.Date;
 public class Bookings {
 	private int booking_id;
 	private String username;
-	private String movie_id;
-	private String theatre_id;
+	private int movie_id;
+	private int theatre_id;
 	private String show_time;
 	private String seat_numbers;
 	private Date date;
@@ -25,17 +25,17 @@ public class Bookings {
 		this.username = username;
 	}
 	
-	public String getMovie_id() {
+	public int getMovie_id() {
 		return movie_id;
 	}
-	public void setMovie_id(String movie_id) {
+	public void setMovie_id(int movie_id) {
 		this.movie_id = movie_id;
 	}
 	
-	public String getTheatre_id() {
+	public int getTheatre_id() {
 		return theatre_id;
 	}
-	public void setTheatre_id(String theatre_id) {
+	public void setTheatre_id(int theatre_id) {
 		this.theatre_id = theatre_id;
 	}
 	

@@ -2,6 +2,7 @@ package edu.ksu.cis.acad.model;
 
 public class Review {
 	private int movie_id;
+	private String movie_name;
 	private String username;
 	private int rating;
 	private String comment;
@@ -32,6 +33,12 @@ public class Review {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	public String getMovie_name() {
+		return movie_name;
+	}
+	public void setMovie_name(String movie_name) {
+		this.movie_name = movie_name;
 	}
 	
 }

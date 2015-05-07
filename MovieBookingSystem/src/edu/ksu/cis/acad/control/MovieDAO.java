@@ -136,7 +136,7 @@ public class MovieDAO {
 			String query = "SELECT MOVIE.* FROM MOVIE, PLAYED_IN "
 							+ "WHERE PLAYED_IN.thetre_id=? "
 							+ "AND PLAYED_IN.show_time=? "
-							+ "AND last_date>? "
+							+ "AND last_date=? "
 							+ "AND PLAYED_IN.movie_id=MOVIE.movie_id";
     
 			PreparedStatement get_movies_ps = dbConn.prepareStatement(query);

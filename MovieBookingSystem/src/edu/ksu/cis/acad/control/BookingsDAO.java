@@ -20,30 +20,71 @@ public class BookingsDAO {
     // might need to put a validation to check if the seats selected are available or not
 	// or we will disable the already booked seats on seat selection page 
 	public int bookTickets(Bookings booking) {
-    	int rows_updated = 0;
+    	int seats_booked = 0;
         try {
         	// creating database connection, connection object in dbConn
         	DatabaseConnect db = new DatabaseConnect();
             Connection dbConn = db.openConnection();
             
-            String query = "INSERT INTO BOOKINGS "
-            				+ "VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement book_ticket_ps = dbConn.prepareStatement(query);
+            // check if any of the seat is already booked
+            String check_seats_query = "SELECT s.seat_number FROM BOOKINGS b, SEATS_BOOKED s "
+    				+ "WHERE b.booking_id=s.booking_id "
+            		+ "AND movie_id=? AND theatre_id=? AND show_time=? AND date=?";
+            PreparedStatement check_seats_ps = dbConn.prepareStatement(check_seats_query);
+            
+            check_seats_ps.setInt(1, booking.getMovie_id());
+            check_seats_ps.setInt(2, booking.getTheatre_id());
+            check_seats_ps.setString(3, booking.getShow_time());
+            check_seats_ps.setDate(4,  booking.getDate());
+            ResultSet seats = check_seats_ps.executeQuery();
+            
+            while (seats.next()) {
+            	String seats_to_book = booking.getSeat_numbers();
+            	String seat_already_booked = seats.getString(1);
+            	if ( seats_to_book.contains(seat_already_booked) ) {
+            		System.out.println("One of the seats you are trying to book is already booked, please select available seats only");
+            		return 0;
+            	}
+            }
+            
+            // insert into bookings table
+            String insert_booking_query = "INSERT INTO BOOKINGS "
+            				+ "VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement book_ticket_ps = dbConn.prepareStatement(insert_booking_query);
             book_ticket_ps.setString(1, "");
             book_ticket_ps.setString(2, booking.getUsername());
-            book_ticket_ps.setString(3, booking.getMovie_id());
-            book_ticket_ps.setString(4, booking.getTheatre_id());
-            book_ticket_ps.setString(5, booking.getSeat_numbers());
+            book_ticket_ps.setInt(3, booking.getMovie_id());
+            book_ticket_ps.setInt(4, booking.getTheatre_id());
             
-            rows_updated = book_ticket_ps.executeUpdate();
+            int booking_done = book_ticket_ps.executeUpdate();
+            
+            // getting booking ID for the above insert
+            String get_booking_id_query = "SELECT MAX(booking_id) FROM BOOKINGS";
+            PreparedStatement get_booking_id_ps = dbConn.prepareStatement(get_booking_id_query);
+            ResultSet created_booking_id = get_booking_id_ps.executeQuery();
+            created_booking_id.next();
+            int current_booking_id = created_booking_id.getInt(1);
+            
+            // insert into seats table
+            String[] seats_to_book = booking.getSeat_numbers().split(",");
+            
+            for (int i=0; i<=seats_to_book.length; i++){
+            	String insert_seats_query = "INSERT INTO SEATS_BOOKED "
+        				+ "VALUES (?, ?)";
+                PreparedStatement insert_seats_ps = dbConn.prepareStatement(insert_seats_query);
+                insert_seats_ps.setInt(1, current_booking_id);
+                insert_seats_ps.setString(2, seats_to_book[i]);
+                seats_booked = insert_seats_ps.executeUpdate() + 1;	
+            }
             
             dbConn.close();
             	
         }  catch (Exception ex) {
             	ex.printStackTrace();
+            	System.out.println("There is some error in booking");
            } 
 
-    	return rows_updated;
+    	return seats_booked;
 
     }
 	
@@ -54,9 +95,9 @@ public class BookingsDAO {
         	DatabaseConnect db = new DatabaseConnect();
             Connection dbConn = db.openConnection();
             
-            String query = "DELETE FROM BOOKINGS "
+            String cancel_booking_query = "DELETE FROM BOOKINGS "
             				+ "WHERE booking_id = ?";
-            PreparedStatement cancel_ticket_ps = dbConn.prepareStatement(query);
+            PreparedStatement cancel_ticket_ps = dbConn.prepareStatement(cancel_booking_query);
             cancel_ticket_ps.setInt(1, booking_id);
             
             rows_deleted = cancel_ticket_ps.executeUpdate();
@@ -85,15 +126,21 @@ public class BookingsDAO {
 			get_all_user_movie_ps.setString(1, username);
 			
 			ResultSet rows_selected = get_all_user_movie_ps.executeQuery();
-            
+			
 			while ( rows_selected.next() ) {
 				Bookings booking = new Bookings();
-				booking.setBooking_id(rows_selected.getInt(1));
-				booking.setUsername(rows_selected.getString(2));
-				booking.setMovie_id(rows_selected.getString(3));
-				booking.setTheatre_id(rows_selected.getString(4)); 
-				booking.setShow_time(rows_selected.getString(5));
-				booking.setSeat_numbers(rows_selected.getString(6));
+				int booking_id = rows_selected.getInt(1);
+				int movie_id = rows_selected.getInt(3);
+				int theatre_id = rows_selected.getInt(4);
+				String show_time = rows_selected.getString(5);
+				Date show_date = rows_selected.getDate(6);
+				String seats_booked = getBookedSeatsByUser(username, movie_id, theatre_id, show_date, show_time);
+				booking.setBooking_id(booking_id);
+				booking.setUsername(username);
+				booking.setMovie_id(movie_id);
+				booking.setTheatre_id(theatre_id); 
+				booking.setShow_time(show_time);
+				booking.setSeat_numbers(seats_booked);
 				bookings.add(booking);
 			} 
 			
@@ -117,8 +164,8 @@ public class BookingsDAO {
         try {
 			Connection dbConn = db.openConnection();
 			
-			String query = "SELECT seat_numbers FROM BOOKINGS "
-							+ "WHERE movie_id=? AND theatre_id=? AND date=? AND show_time=?";
+			String query = "SELECT s.seat_number FROM BOOKINGS b, SEATS_BOOKED s "
+							+ "WHERE movie_id=? AND theatre_id=? AND date=? AND show_time=? AND b.booking_id=s.booking_id";
     
 			PreparedStatement get_booked_seats_ps = dbConn.prepareStatement(query);
 			get_booked_seats_ps.setInt(1, movie_id);
@@ -144,6 +191,41 @@ public class BookingsDAO {
     
 	}
 	
+	// to get seats booked by a user
+	private String getBookedSeatsByUser(String username, int movie_id, int theatre_id, Date date, String show_time) {
+		String booked_seats_by_user = "";
+		DatabaseConnect db = new DatabaseConnect();
+        try {
+			Connection dbConn = db.openConnection();
+			
+			String query = "SELECT s.seat_number FROM BOOKINGS b, SEATS_BOOKED s "
+							+ "WHERE b.movie_id=? AND b.theatre_id=? AND b.date=? AND b.show_time=? AND b.username=? AND b.booking_id=s.booking_id";
+    
+			PreparedStatement get_booked_seats_ps = dbConn.prepareStatement(query);
+			get_booked_seats_ps.setInt(1, movie_id);
+			get_booked_seats_ps.setInt(2, theatre_id);
+			get_booked_seats_ps.setDate(3, date);
+			get_booked_seats_ps.setString(4, show_time);
+			get_booked_seats_ps.setString(5, username);
+									
+			ResultSet rows_selected = get_booked_seats_ps.executeQuery();
+            
+			while ( rows_selected.next() ) {
+				booked_seats_by_user = booked_seats_by_user+rows_selected.getString(1);
+			} 
+			
+            dbConn.close();
+            
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return booked_seats_by_user;
+    
+	}
+	
 	public ArrayList<PlayedIn> getMovieShowsByTheatreAndDate(int theatre_id, Date date) {
 		ArrayList<PlayedIn> shows = new ArrayList<PlayedIn>();
     	DatabaseConnect db = new DatabaseConnect();
@@ -151,7 +233,7 @@ public class BookingsDAO {
 			Connection dbConn = db.openConnection();
 			
 			String query = "SELECT PLAYED_IN.*, MOVIE.movie_name FROM PLAYED_IN, MOVIE "
-							+ "WHERE PLAYED_IN.theatre_id = ? AND PLAYED_IN.last_date > ? "
+							+ "WHERE PLAYED_IN.theatre_id = ? AND PLAYED_IN.last_date = ? "
 							+ "AND MOVIE.movie_id = PLAYED_IN.movie_id";
     
 			PreparedStatement get_shows_by_date = dbConn.prepareStatement(query);
