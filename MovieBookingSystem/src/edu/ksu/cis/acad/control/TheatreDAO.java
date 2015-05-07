@@ -17,12 +17,11 @@ public class TheatreDAO {
         	DatabaseConnect db = new DatabaseConnect();
             Connection dbConn = db.openConnection();
             
-            String query = "INSERT INTO THEATRE "
-            				+	"VALUES (?, ?, ?)";
+            String query = "INSERT INTO THEATRE (theatre_name, show_time)"
+            				+	"VALUES (?, ?)";
             PreparedStatement add_theatre_ps = dbConn.prepareStatement(query);
-            add_theatre_ps.setInt(1, theatre.getTheatre_id());
-            add_theatre_ps.setString(2, theatre.getTheatre_name());
-            add_theatre_ps.setString(3, theatre.getShow_time());
+            add_theatre_ps.setString(1, theatre.getTheatre_name());
+            add_theatre_ps.setString(2, theatre.getShow_time());
             
             rows_updated = add_theatre_ps.executeUpdate();
             
