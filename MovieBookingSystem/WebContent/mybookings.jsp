@@ -21,7 +21,6 @@
         $(document).ready(function () {
         $("#showbook").click( function()
                 {
-                  alert('button clicked');
                   $("#maincontent").load("mybookings");
                 }
          );

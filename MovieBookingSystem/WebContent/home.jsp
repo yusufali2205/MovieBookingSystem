@@ -44,7 +44,7 @@ DatabaseConnect db = new DatabaseConnect();
                 var mid = $("#movie").val();
                 var date = $("#datepicker").val();
                 var showtime = $("#showtime").val();
-                var seats = $("#seats").val();
+                var seats = $("#sseat").val();
                 
                 if (tid == "0") {
                     $("#terror").html("please enter the theatre name");
