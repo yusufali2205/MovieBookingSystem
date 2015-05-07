@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import edu.ksu.cis.acad.dbutil.DatabaseConnect;
@@ -214,8 +216,12 @@ public class BookingsDAO {
 			ResultSet rows_selected = get_booked_seats_ps.executeQuery();
             
 			while ( rows_selected.next() ) {
-				booked_seats_by_user = booked_seats_by_user+rows_selected.getString(1);
+				booked_seats_by_user = booked_seats_by_user+","+rows_selected.getString(1);
 			} 
+			
+			if (!booked_seats_by_user.isEmpty()) {
+				booked_seats_by_user = booked_seats_by_user.substring(1);
+			}
 			
             dbConn.close();
             
@@ -266,7 +272,32 @@ public class BookingsDAO {
         return shows;
 	}
 	
-	
+	public static void main(String args[]) {
+		BookingsDAO bd = new BookingsDAO();
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+		java.util.Date date;
+		try {
+			date = sdf1.parse("05/15/2015");
+		java.sql.Date sqlStartDate = new java.sql.Date(date.getTime()); 
+		
+		Bookings booking = new Bookings();
+		booking.setDate(sqlStartDate);
+		booking.setMovie_id(2);
+		booking.setTheatre_id(1);
+		booking.setUsername("a");
+		booking.setShow_time("2100");
+		booking.setSeat_numbers("C1,C2,C3");
+		
+		int booked = bd.bookTickets(booking);
+		
+		
+		System.out.println(booked);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }
 
