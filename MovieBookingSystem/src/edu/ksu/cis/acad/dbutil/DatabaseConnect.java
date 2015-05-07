@@ -3,6 +3,9 @@ package edu.ksu.cis.acad.dbutil;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseConnect {
@@ -13,6 +16,14 @@ public class DatabaseConnect {
 		private static String MySqlServerUrl;
 	    private static String MySqlServerUser;
 		private static String MySqlServerPassword;
+		
+		 //Return the resultset of the query.
+	    public ResultSet result(String query) throws Exception {
+	    	Connection dbConn = openConnection();
+	    	PreparedStatement ps = dbConn.prepareStatement(query);
+	    	ResultSet rs = ps.executeQuery();
+	        return rs;
+	    }
 
 		public Connection openConnection() throws Exception {
 			// DB Connection

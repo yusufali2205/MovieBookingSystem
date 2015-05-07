@@ -50,7 +50,7 @@ public class BookingsDAO {
             String insert_booking_query = "INSERT INTO BOOKINGS "
             				+ "VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement book_ticket_ps = dbConn.prepareStatement(insert_booking_query);
-            book_ticket_ps.setString(1, "");
+            book_ticket_ps.setInt(1, 1);
             book_ticket_ps.setString(2, booking.getUsername());
             book_ticket_ps.setInt(3, booking.getMovie_id());
             book_ticket_ps.setInt(4, booking.getTheatre_id());
@@ -69,7 +69,7 @@ public class BookingsDAO {
             // insert into seats table
             String[] seats_to_book = booking.getSeat_numbers().split(",");
             
-            for (int i=0; i<=seats_to_book.length; i++){
+            for (int i=0; i<seats_to_book.length; i++){
             	String insert_seats_query = "INSERT INTO SEATS_BOOKED "
         				+ "VALUES (?, ?)";
                 PreparedStatement insert_seats_ps = dbConn.prepareStatement(insert_seats_query);

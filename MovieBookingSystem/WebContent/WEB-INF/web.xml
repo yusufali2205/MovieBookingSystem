@@ -12,12 +12,36 @@
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/LoginServlet</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>HomeServlet</servlet-name>
-    <servlet-class>edu.ksu.cis.acad.servlet.HomeServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>HomeServlet</servlet-name>
-    <url-pattern>/HomeServlet</url-pattern>
-  </servlet-mapping>
+ <servlet>
+        <servlet-name>MovieList</servlet-name>
+        <servlet-class>edu.ksu.cis.acad.servlet.MovieList</servlet-class>
+ </servlet>
+ <servlet-mapping>
+        <servlet-name>MovieList</servlet-name>
+        <url-pattern>/movie</url-pattern>
+    </servlet-mapping>
+     <servlet>
+        <servlet-name>SeatStatus</servlet-name>
+        <servlet-class>edu.ksu.cis.acad.servlet.SeatStatus</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SeatStatus</servlet-name>
+        <url-pattern>/seatstatus</url-pattern>
+    </servlet-mapping>
+        <servlet>
+        <servlet-name>BookTicket</servlet-name>
+        <servlet-class>edu.ksu.cis.acad.servlet.BookTicket</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookTicket</servlet-name>
+        <url-pattern>/book</url-pattern>
+    </servlet-mapping>
+     <servlet>
+        <servlet-name>MyBookings</servlet-name>
+        <servlet-class>edu.ksu.cis.acad.servlet.MyBookings</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyBookings</servlet-name>
+        <url-pattern>/mybookings</url-pattern>
+    </servlet-mapping>
 </web-app>
