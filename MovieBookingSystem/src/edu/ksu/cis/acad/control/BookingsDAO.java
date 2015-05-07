@@ -47,15 +47,14 @@ public class BookingsDAO {
             }
             
             // insert into bookings table
-            String insert_booking_query = "INSERT INTO BOOKINGS "
-            				+ "VALUES (?, ?, ?, ?, ?, ?)";
+            String insert_booking_query = "INSERT INTO BOOKINGS (username, movie_id, theatre_id, show_time, date)"
+            				+ "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement book_ticket_ps = dbConn.prepareStatement(insert_booking_query);
-            book_ticket_ps.setString(1, "");
-            book_ticket_ps.setString(2, booking.getUsername());
-            book_ticket_ps.setInt(3, booking.getMovie_id());
-            book_ticket_ps.setInt(4, booking.getTheatre_id());
-            book_ticket_ps.setString(5, booking.getShow_time());
-            book_ticket_ps.setDate(6, booking.getDate());
+            book_ticket_ps.setString(1, booking.getUsername());
+            book_ticket_ps.setInt(2, booking.getMovie_id());
+            book_ticket_ps.setInt(3, booking.getTheatre_id());
+            book_ticket_ps.setString(4, booking.getShow_time());
+            book_ticket_ps.setDate(5, booking.getDate());
             
             int booking_done = book_ticket_ps.executeUpdate();
             
